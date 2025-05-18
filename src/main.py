@@ -10,9 +10,9 @@ intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 DISCORD_TOKEN = getenv("DISCORD_TOKEN", "NO TOKEN PROVIDED")
-FIRST_CHANNEL_ID = int(getenv("FIRST_CHANNEL_ID", "NO FIRST CHANNEL ID PROVIDED"))
-SECOND_CHANNEL_ID = int(getenv("FIRST_CHANNEL_ID", "NO SECOND CHANNEL ID PROVIDED"))
-ROLE_ID = int(getenv("FIRST_CHANNEL_ID", "NO SECOND CHANNEL ID PROVIDED"))
+FIRST_CHANNEL_ID = int(getenv("FIRST_CHANNEL_ID", 683090734613528636))
+SECOND_CHANNEL_ID = int(getenv("SECOND_CHANNEL_ID", 1220235079289409577))
+ROLE_ID = int(getenv("ROLE_ID", 1220228451940962354))
 
 
 class MeetingPrompt(discord.ui.Modal, title='Questionnaire Response'):
