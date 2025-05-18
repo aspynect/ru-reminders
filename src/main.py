@@ -1,7 +1,7 @@
 import discord
 from discord import app_commands
 from discord.ext import tasks
-import json
+from os import getenv
 import datetime
 import zoneinfo
 
@@ -9,15 +9,18 @@ myColor = discord.Color.from_rgb(r=255, g=0, b=255)
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
-with open('secrets.json', 'r') as file:
-    secrets = json.load(file)
+DISCORD_TOKEN = getenv("DISCORD_TOKEN", "NO TOKEN PROVIDED")
+FIRST_CHANNEL_ID = int(getenv("FIRST_CHANNEL_ID", "NO FIRST CHANNEL ID PROVIDED"))
+SECOND_CHANNEL_ID = int(getenv("FIRST_CHANNEL_ID", "NO SECOND CHANNEL ID PROVIDED"))
+ROLE_ID = int(getenv("FIRST_CHANNEL_ID", "NO SECOND CHANNEL ID PROVIDED"))
+
 
 class MeetingPrompt(discord.ui.Modal, title='Questionnaire Response'):
     meetingMessage = discord.ui.TextInput(label='Enter Meeting Message:')
 
     async def on_submit(self, interaction: discord.Interaction):
-        channel = client.get_channel(secrets["secondChannelID"])
-        await channel.send(f"<@&{secrets["roleID"]}> Meeting tonight at 8:00pm!\n{self.meetingMessage}")
+        channel = client.get_channel(SECOND_CHANNEL_ID)
+        await channel.send(f"<@&{ROLE_ID}> Meeting tonight at 8:00pm!\n{self.meetingMessage}")
         await interaction.response.send_message(f"Sent meeting reminder:\n{self.meetingMessage}")
 
 class ReminderView(discord.ui.View):
@@ -53,7 +56,7 @@ time = datetime.time(hour=19, minute=0, tzinfo=zoneinfo.ZoneInfo("US/Central"))
 @tasks.loop(time=time)
 async def reminder():
     if datetime.datetime.now(zoneinfo.ZoneInfo("US/Central")).weekday() == 2:
-        channel = client.get_channel(secrets["firstChannelID"])
+        channel = client.get_channel(FIRST_CHANNEL_ID)
         await channel.send("Is there a meeting today?", view = ReminderView())
 
 @client.event
@@ -61,4 +64,4 @@ async def on_ready():
     print("Ready!")
     reminder.start()
 
-client.run(secrets["token"])
+client.run(DISCORD_TOKEN)
