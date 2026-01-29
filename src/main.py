@@ -20,7 +20,7 @@ class MeetingPrompt(discord.ui.Modal, title='Questionnaire Response'):
 
     async def on_submit(self, interaction: discord.Interaction):
         channel = client.get_channel(SECOND_CHANNEL_ID)
-        await channel.send(f"<@&{ROLE_ID}> Meeting tonight at 8:00pm!\n{self.meetingMessage}")
+        await channel.send(f"<@&{ROLE_ID}> Meeting tonight at 7:30pm!\n{self.meetingMessage}")
         await interaction.response.send_message(f"Sent meeting reminder:\n{self.meetingMessage}")
 
 class ReminderView(discord.ui.View):
