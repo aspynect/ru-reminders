@@ -52,7 +52,7 @@ async def sync(interaction: discord.Interaction):
 #    await interaction.response.send_message(ephemeral = True, view = ReminderView())
 
 
-time = datetime.time(hour=19, minute=0, tzinfo=zoneinfo.ZoneInfo("US/Central"))
+time = datetime.time(hour=18, minute=30, tzinfo=zoneinfo.ZoneInfo("US/Central"))
 @tasks.loop(time=time)
 async def reminder():
     if datetime.datetime.now(zoneinfo.ZoneInfo("US/Central")).weekday() == 2:
